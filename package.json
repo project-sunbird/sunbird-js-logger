@@ -1,0 +1,38 @@
+{
+  "name": "@project-sunbird/sunbird-js-logger",
+  "version": "1.0.0",
+  "description": "Sunbird logging library",
+  "files": ["lib/**/*"],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build" : "tsc",
+    "prepare" : "npm run build",
+    "prepublishOnly" : "npm test && npm run lint",
+    "preversion" : "npm run lint",
+    "version" : "npm run format && git add -A src",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "lint": "tslint -p tsconfig.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/project-sunbird/sunbird-js-logger.git"
+  },
+  "keywords": [
+    "sunbird",
+    "logging"
+  ],
+  "author": "anoophm44@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/project-sunbird/sunbird-js-logger/issues"
+  },
+  "homepage": "https://github.com/project-sunbird/sunbird-js-logger#readme",
+  "devDependencies": {
+    "prettier": "^1.19.1",
+    "tslint": "^6.0.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.8.3"
+  }
+}
