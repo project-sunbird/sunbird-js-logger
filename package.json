@@ -5,8 +5,8 @@
   "files": [
     "lib/**/*"
   ],
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "lib/logger.js",
+  "types": "lib/logger.d.ts",
   "scripts": {
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
