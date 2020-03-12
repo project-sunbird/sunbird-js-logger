@@ -1,7 +1,7 @@
-import { createLogger, format, transports } from 'winston';
-// const { createLogger, format, transports } = require('winston');
-import * as DailyRotateFile from 'winston-daily-rotate-file';
-// require('winston-daily-rotate-file');
+// import { createLogger, format, transports } from 'winston';
+const { createLogger, format, transports } = require('winston');
+// import * as DailyRotateFile from 'winston-daily-rotate-file';
+require('winston-daily-rotate-file');
 import { LogAdopter, ILogAdopterConfig } from './interface';
 import { pathToFileURL } from 'url';
 import * as path from 'path';
