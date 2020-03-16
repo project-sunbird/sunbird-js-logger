@@ -1,0 +1,5 @@
+{
+    "name": "@project-sunbird/logger/decorator",
+    "typings": "./logDecorator.d.ts",
+    "main": "./logDecorator.js"
+}

@@ -15,3 +15,4 @@ export const enableLogger = (config: ILoggerConfig) => {
     logger = adopter.logger;
   }
 };
+export * from './interface';

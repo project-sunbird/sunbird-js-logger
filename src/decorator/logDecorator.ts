@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
-import { IClassLoggerOptions, IMethodLoggerOptions } from './interface';
-import { logger } from './logger';
+import { IClassLoggerOptions, IMethodLoggerOptions } from '../logger/interface';
+import { logger } from './../logger/logger';
 const NS_PER_SEC = 1e9;
 const defaultClassLoggerOptions: IClassLoggerOptions = {
   logLevel: 'info',
@@ -34,7 +34,8 @@ function wrapMethodWithLogAsync(
   className: string,
   options: IMethodLoggerOptions,
 ): any {
-  return async function(...args: any[]) { // async added creates promise for sync function also, this need to be handled 
+  return async function(...args: any[]) {
+    // async added creates promise for sync function also, this need to be handled
     const startHrTime = process.hrtime();
     const loggerMethod = logger[options.logLevel] || logger.debug;
     const argMap = args.map(arg => {
@@ -72,3 +73,4 @@ export function MethodLogger(methodLogOption: IMethodLoggerOptions = defaultClas
     methodRef.value.__loggerAttached = true;
   };
 }
+export * from '../logger/interface';
