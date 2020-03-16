@@ -1,12 +1,13 @@
 {
-  "name": "@project-sunbird/sunbird-js-logger",
-  "version": "1.0.1",
+  "name": "@project-sunbird/logger",
+  "version": "0.1.0",
   "description": "Sunbird logger library",
   "files": [
-    "lib/**/*"
+    "decorator/**/*",
+    "logger/**/*"
   ],
-  "main": "lib/logger.js",
-  "types": "lib/logger.d.ts",
+  "main": "logger/logger.js",
+  "types": "logger/logger.d.ts",
   "scripts": {
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
@@ -28,6 +29,7 @@
   },
   "homepage": "https://github.com/project-sunbird/sunbird-js-logger#readme",
   "devDependencies": {
+    "gulp": "^4.0.2",
     "prettier": "^1.19.1",
     "tslint": "^6.0.0",
     "tslint-config-prettier": "^1.18.0",

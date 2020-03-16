@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
-import { IClassLoggerOptions, IMethodLoggerOptions } from './interface';
-import { logger } from './logger';
+import { IClassLoggerOptions, IMethodLoggerOptions } from '../logger/interface';
+import { logger } from './../logger/logger';
 const NS_PER_SEC = 1e9;
 const defaultClassLoggerOptions: IClassLoggerOptions = {
   logLevel: 'info',
@@ -72,3 +72,5 @@ export function MethodLogger(methodLogOption: IMethodLoggerOptions = defaultClas
     methodRef.value.__loggerAttached = true;
   };
 }
+export * from '../logger/interface';
+
