@@ -55,8 +55,8 @@ export class WinstonAdopter implements LogAdopter {
   }
   private getDailyRotateFileLogger(fileName: string) {
     return new transports.DailyRotateFile({
-      auditFile:path.join(this.config.logBasePath, 'audit.json' ),
-      filename: path.join(this.config.logBasePath, fileName +'-%DATE%.log' ),
+      auditFile: path.join(this.config.logBasePath, 'audit.json'),
+      filename: path.join(this.config.logBasePath, fileName + '-%DATE%.log'),
       datePattern: 'YYYY-MM-DD',
       zippedArchive: true,
       maxSize: '10m',

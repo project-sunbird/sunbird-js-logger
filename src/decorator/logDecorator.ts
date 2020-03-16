@@ -34,7 +34,8 @@ function wrapMethodWithLogAsync(
   className: string,
   options: IMethodLoggerOptions,
 ): any {
-  return async function(...args: any[]) { // async added creates promise for sync function also, this need to be handled 
+  return async function(...args: any[]) {
+    // async added creates promise for sync function also, this need to be handled
     const startHrTime = process.hrtime();
     const loggerMethod = logger[options.logLevel] || logger.debug;
     const argMap = args.map(arg => {
@@ -73,4 +74,3 @@ export function MethodLogger(methodLogOption: IMethodLoggerOptions = defaultClas
   };
 }
 export * from '../logger/interface';
-

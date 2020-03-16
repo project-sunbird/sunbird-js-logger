@@ -16,4 +16,3 @@ export const enableLogger = (config: ILoggerConfig) => {
   }
 };
 export * from './interface';
-
