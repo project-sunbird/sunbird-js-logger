@@ -48,6 +48,7 @@ function wrapMethodWithLogAsync(
       if (_.get(arg, '__proto__.constructor.name') === 'ServerResponse') {
         return 'ResponseObject';
       }
+      return arg;
     });
     loggerMethod(`${className}.${methodName} called with: `, ...argMap);
     try {
