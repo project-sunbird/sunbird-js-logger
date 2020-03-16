@@ -23,8 +23,8 @@ export abstract class LogAdopter {
   abstract enableDebugMode(): boolean;
 }
 export interface ILogger {
-  error(...arg: any): void;
-  warn(...arg: any): void;
-  info(...arg: any): void;
-  debug(...arg: any): void;
+  error(...arg: any[]): void;
+  warn(...arg: any[]): void;
+  info(...arg: any[]): void;
+  debug(...arg: any[]): void;
 }
