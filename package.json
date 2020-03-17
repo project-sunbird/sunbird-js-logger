@@ -1,6 +1,6 @@
 {
   "name": "@project-sunbird/logger",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Sunbird logger library",
   "files": [
     "decorator/**/*",
@@ -38,6 +38,7 @@
   "dependencies": {
     "@types/lodash": "^4.14.149",
     "@types/node": "^13.9.0",
+    "json-stringify-safe": "^5.0.1",
     "lodash": "^4.17.15",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^4.4.2"

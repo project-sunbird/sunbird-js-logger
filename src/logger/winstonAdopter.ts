@@ -2,6 +2,7 @@
 const { createLogger, format, transports } = require('winston');
 // import * as DailyRotateFile from 'winston-daily-rotate-file';
 require('winston-daily-rotate-file');
+const stringify = require('json-stringify-safe');
 import { LogAdopter, ILogAdopterConfig } from './interface';
 import { pathToFileURL } from 'url';
 import * as path from 'path';
@@ -22,7 +23,13 @@ export class WinstonAdopter implements LogAdopter {
     const combineMessage = format((info: any, opts: any) => {
       const splat = info[Symbol.for('splat')] || [];
       if (splat.length) {
-        info.message = info.message + splat.join(' ');
+        splat.forEach((arg: any) => {
+          if (typeof arg === 'object') {
+            info.message = info.message + ' ' + stringify(arg);
+          } else {
+            info.message = info.message  + ' ' + arg;
+          }
+        });
         info[Symbol.for('splat')] = [];
       }
       return info;
