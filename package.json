@@ -9,7 +9,7 @@
   "main": "logger/logger.js",
   "types": "logger/logger.d.ts",
   "scripts": {
-    "build": "tsc && gulp",
+    "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "test": "echo \"Error: no test specified\" && exit 1"
