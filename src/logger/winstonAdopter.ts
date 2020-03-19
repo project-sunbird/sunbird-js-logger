@@ -27,7 +27,7 @@ export class WinstonAdopter implements LogAdopter {
           if (typeof arg === 'object') {
             info.message = info.message + ' ' + stringify(arg);
           } else {
-            info.message = info.message  + ' ' + arg;
+            info.message = info.message + ' ' + arg;
           }
         });
         info[Symbol.for('splat')] = [];
