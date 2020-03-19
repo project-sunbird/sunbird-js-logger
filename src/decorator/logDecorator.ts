@@ -20,7 +20,14 @@ export function ClassLogger(classLoggerOptions: IClassLoggerOptions = defaultCla
         if (originalMethod.__loggerAttached) {
           return;
         }
-        logger.debug('classDecorator warping method', methodName, '__loggerAttached', originalMethod.__loggerAttached);
+        logger.debug(
+          'classDecorator warping method',
+          constructor.name,
+          '.',
+          methodName,
+          '__loggerAttached',
+          originalMethod.__loggerAttached,
+        );
         constructor.prototype[methodName] = wrapMethodWithLogAsync(originalMethod, methodName, constructor.name, {
           logLevel: classLoggerOptions.logLevel,
           logTime: classLoggerOptions.logTime,
