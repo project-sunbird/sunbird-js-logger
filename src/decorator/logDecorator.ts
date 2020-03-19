@@ -20,7 +20,14 @@ export function ClassLogger(classLoggerOptions: IClassLoggerOptions = defaultCla
         if (originalMethod.__loggerAttached) {
           return;
         }
-        logger.debug('classDecorator warping method', methodName, '__loggerAttached', originalMethod.__loggerAttached);
+        logger.debug(
+          'classDecorator warping method',
+          constructor.name,
+          '.',
+          methodName,
+          '__loggerAttached',
+          originalMethod.__loggerAttached,
+        );
         constructor.prototype[methodName] = wrapMethodWithLogAsync(originalMethod, methodName, constructor.name, {
           logLevel: classLoggerOptions.logLevel,
           logTime: classLoggerOptions.logTime,
@@ -34,7 +41,7 @@ function wrapMethodWithLogAsync(
   className: string,
   options: IMethodLoggerOptions,
 ): any {
-  return async function(...args: any[]) {
+  return function(...args: any[]) {
     // async added creates promise for sync function also, this need to be handled
     const startHrTime = process.hrtime();
     const loggerMethod = logger[options.logLevel] || logger.debug;
@@ -52,11 +59,26 @@ function wrapMethodWithLogAsync(
     });
     loggerMethod(`${className}.${methodName} called with: `, ...argMap);
     try {
-      const result = await method.apply(this, args);
-      const diff = process.hrtime(startHrTime);
-      const endTime = (diff[0] * NS_PER_SEC + diff[1]) / NS_PER_SEC;
-      loggerMethod(`===> ${className}.${methodName} returned with: `, result, `. Took ${endTime} sec`);
-      return result;
+      const result = method.apply(this, args);
+      if (_.get(result, '__proto__.constructor.name') !== 'Promise') {
+        const diff = process.hrtime(startHrTime);
+        const endTime = (diff[0] * NS_PER_SEC + diff[1]) / NS_PER_SEC;
+        loggerMethod(`===> ${className}.${methodName} returned with: `, result, `. Took ${endTime} sec`);
+        return result;
+      }
+      return result
+        .then((response: any) => {
+          const diff = process.hrtime(startHrTime);
+          const endTime = (diff[0] * NS_PER_SEC + diff[1]) / NS_PER_SEC;
+          loggerMethod(`===> ${className}.${methodName} returned with: `, result, `. Took ${endTime} sec`);
+          return response;
+        })
+        .catch((error: any) => {
+          const diff = process.hrtime(startHrTime);
+          const endTime = (diff[0] * NS_PER_SEC + diff[1]) / NS_PER_SEC;
+          loggerMethod(`===> ${className}.${methodName} failed with: `, error, `. Took ${endTime} sec`);
+          throw error;
+        });
     } catch (error) {
       const diff = process.hrtime(startHrTime);
       const endTime = (diff[0] * NS_PER_SEC + diff[1]) / NS_PER_SEC;
