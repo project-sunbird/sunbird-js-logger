@@ -22,11 +22,7 @@ export function ClassLogger(classLoggerOptions: IClassLoggerOptions = defaultCla
         }
         logger.debug(
           'classDecorator warping method',
-          constructor.name,
-          '.',
-          methodName,
-          '__loggerAttached',
-          originalMethod.__loggerAttached,
+          constructor.name + '.' + methodName
         );
         constructor.prototype[methodName] = wrapMethodWithLogAsync(originalMethod, methodName, constructor.name, {
           logLevel: classLoggerOptions.logLevel,
@@ -60,7 +56,7 @@ function wrapMethodWithLogAsync(
     loggerMethod(`${className}.${methodName} called with: `, ...argMap);
     try {
       const result = method.apply(this, args);
-      if (_.get(result, '__proto__.constructor.name') !== 'Promise') {
+      if (_.get(result, '__proto__.constructor.name') !== 'Promise' && _.get(result, '__proto__.constructor.name') !== 'WrappedPromise') {
         const diff = process.hrtime(startHrTime);
         const endTime = (diff[0] * NS_PER_SEC + diff[1]) / NS_PER_SEC;
         loggerMethod(`===> ${className}.${methodName} returned with: `, result, `. Took ${endTime} sec`);
@@ -70,7 +66,7 @@ function wrapMethodWithLogAsync(
         .then((response: any) => {
           const diff = process.hrtime(startHrTime);
           const endTime = (diff[0] * NS_PER_SEC + diff[1]) / NS_PER_SEC;
-          loggerMethod(`===> ${className}.${methodName} returned with: `, result, `. Took ${endTime} sec`);
+          loggerMethod(`===> ${className}.${methodName} returned with: `, response, `. Took ${endTime} sec`);
           return response;
         })
         .catch((error: any) => {
