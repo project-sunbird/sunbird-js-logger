@@ -20,7 +20,7 @@ export interface ILogAdopterConfig {
 export abstract class LogAdopter {
   abstract logger: ILogger;
   abstract initialize(config: ILogAdopterConfig): boolean;
-  abstract enableDebugMode(): boolean;
+  abstract enableDebugMode(timeInterval: number, logLevel: logLevels): boolean;
 }
 export interface ILogger {
   error(...arg: any[]): void;

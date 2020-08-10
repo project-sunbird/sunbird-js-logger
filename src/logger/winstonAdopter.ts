@@ -3,7 +3,7 @@ const { createLogger, format, transports } = require('winston');
 // import * as DailyRotateFile from 'winston-daily-rotate-file';
 require('winston-daily-rotate-file');
 const stringify = require('json-stringify-safe');
-import { LogAdopter, ILogAdopterConfig } from './interface';
+import { LogAdopter, ILogAdopterConfig, logLevels } from './interface';
 import { pathToFileURL } from 'url';
 import * as path from 'path';
 
@@ -47,12 +47,12 @@ export class WinstonAdopter implements LogAdopter {
     });
     return true;
   }
-  public enableDebugMode(time = 10000) {
+  public enableDebugMode(time = 10000, logLevel: logLevels = 'debug') {
     this.logger
       .clear()
       .add(this.getDailyRotateFileLogger('debug'))
       .add(new transports.Console());
-    this.logger.level = 'debug';
+    this.logger.level = logLevel;
     setTimeout(() => {
       this.logger.clear();
       this.logger.level = this.config.logLevel;
