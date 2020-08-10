@@ -1,9 +1,9 @@
 import * as _ from 'lodash';
 import { WinstonAdopter } from './winstonAdopter';
 import * as path from 'path';
-import { ILoggerConfig, ILogger } from './interface';
+import { ILoggerConfig, ILogger, LogAdopter, logLevels } from './interface';
 export let logger: ILogger = console;
-let adopter;
+let adopter: LogAdopter;
 export const enableLogger = (config: ILoggerConfig) => {
   if (config.adopterConfig.adopter === 'console') {
     logger = console;
@@ -12,5 +12,12 @@ export const enableLogger = (config: ILoggerConfig) => {
     adopter.initialize(config);
     logger = adopter.logger;
   }
+};
+export const enableDebugMode = (timeInterval: number, logLevel: logLevels) => {
+  if (adopter.enableDebugMode) {
+      adopter.enableDebugMode(timeInterval, logLevel);
+      return true;
+  }
+  return false;
 };
 export * from './interface';
