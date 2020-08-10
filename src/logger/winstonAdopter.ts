@@ -47,7 +47,7 @@ export class WinstonAdopter implements LogAdopter {
     });
     return true;
   }
-  public enableDebugMode(time = 10000, logLevel: logLevels = 'debug') {
+  public enableDebugMode(time = 1000 * 60 * 10, logLevel: logLevels = 'debug') {
     this.logger
       .clear()
       .add(this.getDailyRotateFileLogger('debug'))
