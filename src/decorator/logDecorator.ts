@@ -92,4 +92,17 @@ export function MethodLogger(methodLogOption: IMethodLoggerOptions = defaultClas
     methodRef.value.__loggerAttached = true;
   };
 }
+
+export function ProxyLogger(targetObject: object, targetObjectName: string, methodLogOption: IMethodLoggerOptions = defaultClassLoggerOptions): any {
+  return new Proxy(targetObject, {
+    get (target: any, prop: any, receiver: any) {
+        const property = Reflect.get(target, prop, receiver);
+        if (typeof property === 'function') {
+          return wrapMethodWithLogAsync(property, prop, targetObjectName, methodLogOption);
+        }
+        return property;
+    }
+  })
+}
+
 export * from '../logger/interface';
