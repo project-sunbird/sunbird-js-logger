@@ -23,6 +23,7 @@ export class WinstonAdopter implements LogAdopter {
     const combineMessage = format((info: any, opts: any) => {
       const splat = info[Symbol.for('splat')] || [];
       if (splat.length) {
+        info.message = typeof info.message === 'object' ? JSON.stringify(info.message) : info.message
         splat.forEach((arg: any) => {
           if (typeof arg === 'object') {
             info.message = info.message + ' ' + stringify(arg);
