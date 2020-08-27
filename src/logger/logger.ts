@@ -10,7 +10,7 @@ export const enableLogger = (config: ILoggerConfig) => {
   } else if (config.adopterConfig.adopter === 'winston') {
     adopter = new WinstonAdopter();
     adopter.initialize(config);
-    logger = adopter.logger;
+    logger = new Proxy(adopter.logger, logProxyHandler());
   }
 };
 export const enableDebugMode = (timeInterval: number, logLevel: logLevels) => {
@@ -20,4 +20,22 @@ export const enableDebugMode = (timeInterval: number, logLevel: logLevels) => {
   }
   return false;
 };
+
+const logProxyHandler =  () => {
+  return {
+    get (target: any, prop: any, receiver: any) {
+      const property = Reflect.get(target, prop, receiver);
+      if(prop === "debug"){
+        return (context: any, ...args: any) => {
+            if(_.get(context, 'isDebugEnabled')){
+              target.info(context, ...args);
+            } else {
+              property.apply(target, [context, ...args]);
+            }
+        }
+      }
+      return property;
+    }
+  }
+}
 export * from './interface';

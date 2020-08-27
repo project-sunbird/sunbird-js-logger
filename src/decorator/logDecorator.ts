@@ -3,7 +3,7 @@ import { IClassLoggerOptions, IMethodLoggerOptions } from '../logger/interface';
 import { logger } from './../logger/logger';
 const NS_PER_SEC = 1e9;
 const defaultClassLoggerOptions: IClassLoggerOptions = {
-  logLevel: 'info',
+  logLevel: 'debug',
   logTime: false,
 };
 export function ClassLogger(classLoggerOptions: IClassLoggerOptions = defaultClassLoggerOptions) {
