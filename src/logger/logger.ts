@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { WinstonAdopter } from './winstonAdopter';
-import * as path from 'path';
 import { ILoggerConfig, ILogger, LogAdopter, logLevels } from './interface';
+import { QueryOptions } from 'winston';
 export let logger: ILogger = console;
 let adopter: LogAdopter;
 export const enableLogger = (config: ILoggerConfig) => {
@@ -36,6 +36,14 @@ const logProxyHandler =  () => {
       }
       return property;
     }
+  }
+}
+
+export const getLogs = async (options: QueryOptions) => {
+  if (!adopter) {
+    throw new Error('Adopter does not exists');
+  } else if (adopter.getLogs) {
+    return adopter.getLogs(options);
   }
 }
 export * from './interface';

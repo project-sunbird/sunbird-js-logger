@@ -1,3 +1,5 @@
+import { QueryOptions } from "winston";
+
 export type logLevels = 'error' | 'warn' | 'info' | 'debug';
 export type defaultAdopters = 'console' | 'winston';
 export interface IClassLoggerOptions extends IMethodLoggerOptions {
@@ -21,6 +23,7 @@ export abstract class LogAdopter {
   abstract logger: ILogger;
   abstract initialize(config: ILogAdopterConfig): boolean;
   abstract enableDebugMode(timeInterval: number, logLevel: logLevels): boolean;
+  abstract getLogs?(options: QueryOptions): any;
 }
 export interface ILogger {
   error(...arg: any[]): void;
