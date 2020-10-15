@@ -1,11 +1,9 @@
-// import { createLogger, format, transports } from 'winston';
 const { createLogger, format, transports } = require('winston');
-// import * as DailyRotateFile from 'winston-daily-rotate-file';
 require('winston-daily-rotate-file');
 const stringify = require('json-stringify-safe');
 import { LogAdopter, ILogAdopterConfig, logLevels } from './interface';
-import { pathToFileURL } from 'url';
 import * as path from 'path';
+import { QueryOptions } from 'winston';
 
 export class WinstonAdopter implements LogAdopter {
   public logger: any;
@@ -69,6 +67,18 @@ export class WinstonAdopter implements LogAdopter {
       zippedArchive: true,
       maxSize: '10m',
       maxFiles: '10d',
+      json: true
+    });
+  }
+
+  public getLogs(options: QueryOptions) {
+    return new Promise((resolve, reject) => {
+      this.logger.query(options, (err: any, results: any) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(results);
+      })
     });
   }
 }
