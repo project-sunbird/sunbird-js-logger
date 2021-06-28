@@ -20,10 +20,7 @@ export function ClassLogger(classLoggerOptions: IClassLoggerOptions = defaultCla
         if (originalMethod.__loggerAttached) {
           return;
         }
-        logger.debug(
-          'classDecorator warping method',
-          constructor.name + '.' + methodName
-        );
+        logger.debug('classDecorator warping method', constructor.name + '.' + methodName);
         constructor.prototype[methodName] = wrapMethodWithLogAsync(originalMethod, methodName, constructor.name, {
           logLevel: classLoggerOptions.logLevel,
           logTime: classLoggerOptions.logTime,
@@ -56,7 +53,10 @@ function wrapMethodWithLogAsync(
     loggerMethod(`${className}.${methodName} called with: `, ...argMap);
     try {
       const result = method.apply(this, args);
-      if (_.get(result, '__proto__.constructor.name') !== 'Promise' && _.get(result, '__proto__.constructor.name') !== 'WrappedPromise') {
+      if (
+        _.get(result, '__proto__.constructor.name') !== 'Promise' &&
+        _.get(result, '__proto__.constructor.name') !== 'WrappedPromise'
+      ) {
         const diff = process.hrtime(startHrTime);
         const endTime = (diff[0] * NS_PER_SEC + diff[1]) / NS_PER_SEC;
         loggerMethod(`===> ${className}.${methodName} returned with: `, result, `. Took ${endTime} sec`);
@@ -93,16 +93,20 @@ export function MethodLogger(methodLogOption: IMethodLoggerOptions = defaultClas
   };
 }
 
-export function ProxyLogger(targetObject: object, targetObjectName: string, methodLogOption: IMethodLoggerOptions = defaultClassLoggerOptions): any {
+export function ProxyLogger(
+  targetObject: object,
+  targetObjectName: string,
+  methodLogOption: IMethodLoggerOptions = defaultClassLoggerOptions,
+): any {
   return new Proxy(targetObject, {
-    get (target: any, prop: any, receiver: any) {
-        const property = Reflect.get(target, prop, receiver);
-        if (typeof property === 'function') {
-          return wrapMethodWithLogAsync(property, prop, targetObjectName, methodLogOption);
-        }
-        return property;
-    }
-  })
+    get(target: any, prop: any, receiver: any) {
+      const property = Reflect.get(target, prop, receiver);
+      if (typeof property === 'function') {
+        return wrapMethodWithLogAsync(property, prop, targetObjectName, methodLogOption);
+      }
+      return property;
+    },
+  });
 }
 
 export * from '../logger/interface';
