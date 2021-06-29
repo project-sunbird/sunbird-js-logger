@@ -21,7 +21,7 @@ export class WinstonAdopter implements LogAdopter {
     const combineMessage = format((info: any, opts: any) => {
       const splat = info[Symbol.for('splat')] || [];
       if (splat.length) {
-        info.message = typeof info.message === 'object' ? JSON.stringify(info.message) : info.message
+        info.message = typeof info.message === 'object' ? JSON.stringify(info.message) : info.message;
         splat.forEach((arg: any) => {
           if (typeof arg === 'object') {
             info.message = info.message + ' ' + stringify(arg);
@@ -46,10 +46,11 @@ export class WinstonAdopter implements LogAdopter {
     });
     return true;
   }
-  public enableDebugMode(time = 1000 * 60 * 10, logLevel: logLevels = 'debug') {
+  public enableDebugMode(time = 1000 * 60 * 10, logLevel: logLevels = 'debug', combineLogs = false) {
+    const dailyFileLogger = combineLogs ? this.getDailyRotateFileLogger('app') : this.getDailyRotateFileLogger('debug');
     this.logger
       .clear()
-      .add(this.getDailyRotateFileLogger('debug'))
+      .add(dailyFileLogger)
       .add(new transports.Console());
     this.logger.level = logLevel;
     setTimeout(() => {
@@ -67,7 +68,7 @@ export class WinstonAdopter implements LogAdopter {
       zippedArchive: true,
       maxSize: '10m',
       maxFiles: '10d',
-      json: true
+      json: true,
     });
   }
 
@@ -78,7 +79,7 @@ export class WinstonAdopter implements LogAdopter {
           reject(err);
         }
         resolve(results);
-      })
+      });
     });
   }
 }
